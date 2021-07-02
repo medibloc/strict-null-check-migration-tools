@@ -45,8 +45,6 @@ export function getImportsForFile(file: string, srcRoot: string) {
       if (fs.existsSync(`${fileName}`)) {
         return fileName
       }
-      console.warn(`Warning: Unresolved import ${path.relative(srcRoot, fileName)} ` +
-                   `in ${path.relative(srcRoot, file)}`)
       return null
     }).filter(fileName => !!fileName)
 }
