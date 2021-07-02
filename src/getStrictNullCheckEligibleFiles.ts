@@ -5,12 +5,15 @@ import { ImportTracker } from './tsHelper'
 import { findCycles } from './findCycles'
 
 function considerFile(file: string): boolean {
+    if (file.includes('/dist/') || file.includes('/node_modules/')) {
+      return false
+    }
   return (file.endsWith('.ts') || file.endsWith('.tsx')) &&
-         !file.endsWith('.stories.tsx')
+         !file.endsWith('.spec.ts')
 }
 
 function hasUncheckedImport(file: string, importsTracker: ImportTracker, checkedFiles: Set<string>): boolean {
-  const imports = importsTracker.getImports(file)
+  const imports = importsTracker.getImports(file).filter(considerFile)
   for (const imp of imports) {
     if (!checkedFiles.has(imp)) {
       return true
